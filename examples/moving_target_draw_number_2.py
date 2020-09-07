@@ -23,7 +23,7 @@ import pydmps
 import pydmps.dmp_discrete
 
 # y_des = np.load("2.npz")["arr_0"].T
-y_des = np.load("../yan_test/5.npz")["arr_0"].T
+y_des = np.load("../yan_test/rect.npz")["arr_0"].T
 print(y_des)
 y_des -= y_des[:, 0][:, None]
 
@@ -44,7 +44,7 @@ for t in range(dmp.timesteps):
     y, _, _ = dmp.step()
     y_track.append(np.copy(y))
     # move the target slightly every time step
-    dmp.goal += np.array([5e-3, 5e-3])
+    dmp.goal += np.array([4e-3, 4e-3])
 y_track = np.array(y_track)
 
 plt.plot(y_track[:, 0], y_track[:, 1], "b", lw=2)
