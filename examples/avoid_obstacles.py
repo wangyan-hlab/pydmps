@@ -71,7 +71,7 @@ dmp = pydmps.dmp_discrete.DMPs_discrete(n_dmps=2, n_bfs=10, w=np.zeros((2, 10)))
 y_track = np.zeros((dmp.timesteps, dmp.n_dmps))
 dy_track = np.zeros((dmp.timesteps, dmp.n_dmps))
 ddy_track = np.zeros((dmp.timesteps, dmp.n_dmps))
-goals = [[np.cos(theta), np.sin(theta)] for theta in np.linspace(0, 2 * np.pi, 20)[:-1]]
+goals = [[np.cos(theta), np.sin(theta)] for theta in np.linspace(0, 2 * np.pi, 21)[:-1]]
 for goal in goals:
     dmp.goal = goal
     dmp.reset_state()

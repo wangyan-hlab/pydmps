@@ -21,7 +21,8 @@ import matplotlib.pyplot as plt
 import pydmps
 import pydmps.dmp_discrete
 
-y_des = np.load("2.npz")["arr_0"].T
+# y_des = np.load("2.npz")["arr_0"].T
+y_des = np.load("../yan_test/rect.npz")["arr_0"].T
 y_des -= y_des[:, 0][:, None]
 
 # test normal run
