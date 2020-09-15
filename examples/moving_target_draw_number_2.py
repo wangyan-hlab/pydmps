@@ -43,7 +43,7 @@ for t in range(dmp.timesteps):
     y, _, _ = dmp.step()
     y_track.append(np.copy(y))
     # move the target slightly every time step
-    dmp.goal += np.array([1e-3, 1e-3])
+    dmp.goal += np.array([1e-2, 1e-2])
 y_track = np.array(y_track)
 
 plt.plot(y_track[:, 0], y_track[:, 1], "b", lw=2)

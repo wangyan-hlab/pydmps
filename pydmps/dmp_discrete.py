@@ -149,8 +149,8 @@ if __name__ == "__main__":
 
         dmp.imitate_path(y_des=np.array([path1, path2]))
         # change the scale of the movement
-        dmp.goal[0] = 3
-        dmp.goal[1] = 2
+        dmp.goal[0] = 4
+        dmp.goal[1] = 3
 
         y_track, dy_track, ddy_track = dmp.rollout()
 

@@ -24,7 +24,7 @@ while True:
             # print(x)
             # print(y)
             y_des = np.array([x, y])
-            np.savez('rect.npz', y_des.T)
+            # np.savez('rect.npz', y_des.T)
             y_des -= y_des[:, 0][:, None]
             print(y_des)
             plt.plot(y_des[0], y_des[1], 'r--', lw=2, alpha=0.7, label="mouse trajectory")
