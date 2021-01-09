@@ -21,8 +21,7 @@ import matplotlib.pyplot as plt
 import pydmps
 import pydmps.dmp_discrete
 
-# y_des = np.load("2.npz")["arr_0"].T
-y_des = np.load("../yan_test/rect.npz")["arr_0"].T
+y_des = np.load("2.npz")["arr_0"].T
 y_des -= y_des[:, 0][:, None]
 
 # test normal run
@@ -34,7 +33,7 @@ ddy_track = []
 dmp.imitate_path(y_des=y_des)
 y_track_normal, _, _ = dmp.rollout(tau=1)
 y_track_slow, _, _ = dmp.rollout(tau=0.1)
-y_track_fast, _, _ = dmp.rollout(tau=4)
+y_track_fast, _, _ = dmp.rollout(tau=5)
 plt.figure(1, figsize=(6, 6))
 
 plt.plot(y_track_normal[:, 0], y_track_normal[:, 1], "b", lw=2)
@@ -44,8 +43,8 @@ plt.legend(['Normal', 'Slow', 'Fast'])
 plt.title("DMP system - draw number 2")
 
 plt.axis("equal")
-plt.xlim([-2, 2])
-plt.ylim([-2, 2])
+# plt.xlim([-2, 2])
+# plt.ylim([-2, 2])
 
 plt.figure(2)
 plt.subplot(3, 1, 1)
@@ -58,5 +57,5 @@ plt.ylabel('Slow')
 plt.subplot(3, 1, 3)
 plt.plot(y_track_fast)
 plt.ylabel('Fast')
-
+plt.legend()
 plt.show()

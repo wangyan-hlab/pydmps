@@ -122,7 +122,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     # test normal run
-    dmp = DMPs_discrete(dt=0.05, n_dmps=1, n_bfs=10, w=np.zeros((1, 10)))
+    dmp = DMPs_discrete(dt=0.01, n_dmps=1, n_bfs=10, w=np.zeros((1, 10)))
     y_track, dy_track, ddy_track = dmp.rollout()
 
     plt.figure(1, figsize=(6, 3))
@@ -136,7 +136,7 @@ if __name__ == "__main__":
 
     # test imitation of path run
     plt.figure(2, figsize=(6, 4))
-    n_bfs = [10, 30, 50, 100, 10000]
+    n_bfs = [10, 30, 50, 100, 1000]
 
     # a straight line to target
     path1 = np.sin(np.arange(0, 1, 0.01) * 5)
@@ -145,12 +145,12 @@ if __name__ == "__main__":
     path2[int(len(path2) / 2.0) :] = 0.5
 
     for ii, bfs in enumerate(n_bfs):
-        dmp = DMPs_discrete(n_dmps=2, n_bfs=bfs)
+        dmp = DMPs_discrete(dt=0.01, n_dmps=2, n_bfs=bfs)
 
         dmp.imitate_path(y_des=np.array([path1, path2]))
         # change the scale of the movement
-        dmp.goal[0] = 4
-        dmp.goal[1] = 3
+        dmp.goal[0] = 3
+        dmp.goal[1] = 2
 
         y_track, dy_track, ddy_track = dmp.rollout()
 

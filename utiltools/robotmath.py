@@ -2529,3 +2529,12 @@ def is_same_transform(matrix0, matrix1):
     matrix1 = numpy.array(matrix1, dtype=numpy.float64, copy=True)
     matrix1 /= matrix1[3, 3]
     return numpy.allclose(matrix0, matrix1)
+
+
+if __name__ == '__main__':
+    a = quaternion_from_euler(0, 45/180*np.pi, 0)
+    a1 = quaternion_from_euler(0, -10/180*np.pi, 0)
+    print(a, a1)
+    b = euler_from_quaternion(a)
+    b1 = euler_from_quaternion(a1)
+    print(b, b1)

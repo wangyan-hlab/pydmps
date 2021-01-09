@@ -78,7 +78,8 @@ class CanonicalSystem:
                    increase tau to make the system execute faster
         error_coupling float: slow down if the error is > 1
         """
-        self.x += (-self.ax * self.x * error_coupling) * tau * self.dt
+        self.x += (-self.ax * self.x * error_coupling) * tau * self.dt  # exponential decay
+        # self.x += (-self.x * error_coupling) * tau * self.dt    # linear decay
         return self.x
 
     def step_rhythmic(self, tau=1.0, error_coupling=1.0):

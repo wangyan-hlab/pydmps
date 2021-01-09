@@ -24,7 +24,7 @@ class DMPs(object):
     as described in Dr. Stefan Schaal's (2002) paper."""
 
     def __init__(
-        self, n_dmps, n_bfs, dt=0.01, y0=0, goal=1, w=None, ay=None, by=None, **kwargs
+        self, n_dmps, n_bfs, dt=0.01, ax=4.0, y0=0, goal=1, w=None, ay=None, by=None, **kwargs
     ):
         """
         n_dmps int: number of dynamic motor primitives
@@ -55,7 +55,7 @@ class DMPs(object):
         self.by = self.ay / 4.0 if by is None else by  # Schaal 2012
 
         # set up the CS
-        self.cs = CanonicalSystem(dt=self.dt, **kwargs)
+        self.cs = CanonicalSystem(dt=self.dt, ax=ax, **kwargs)
         self.timesteps = int(self.cs.run_time / self.dt)
 
         # set up the DMP system
@@ -75,7 +75,7 @@ class DMPs(object):
     def gen_goal(self, y_des):
         raise NotImplementedError()
 
-    def gen_psi(self):
+    def gen_psi(self, x):
         raise NotImplementedError()
 
     def gen_weights(self, f_target):
@@ -93,7 +93,7 @@ class DMPs(object):
         if y_des.ndim == 1:
             y_des = y_des.reshape(1, len(y_des))
         self.y0 = y_des[:, 0].copy()
-        self.y_des = y_des.copy()
+        y_des = y_des.copy()
         self.goal = self.gen_goal(y_des)
 
         # self.check_offset()
@@ -117,6 +117,7 @@ class DMPs(object):
 
         f_target = np.zeros((y_des.shape[1], self.n_dmps))
         # find the force required to move along this trajectory
+
         for d in range(self.n_dmps):
             f_target[:, d] = ddy_des[d] - self.ay[d] * (
                 self.by[d] * (self.goal[d] - y_des[d]) - dy_des[d]
@@ -141,7 +142,7 @@ class DMPs(object):
                 plt.plot(f_target[:, ii], "--", label="f_target %i" % ii)
             for ii in range(self.n_dmps):
                 plt.subplot(2, self.n_dmps, self.n_dmps + 1 + ii)
-                print("w shape: ", self.w.shape)
+                # print("w shape: ", self.w.shape)
                 plt.plot(
                     np.sum(psi_track * self.w[ii], axis=1) * self.dt,
                     label="w*psi %i" % ii,
@@ -203,11 +204,13 @@ class DMPs(object):
 
             # generate the forcing term
             f = self.gen_front_term(x, d) * (np.dot(psi, self.w[d])) / np.sum(psi)
+            # print('f =', f)
 
             # DMP acceleration
             self.ddy[d] = (
                 self.ay[d] * (self.by[d] * (self.goal[d] - self.y[d]) - self.dy[d]) + f
             )
+            # print('ddy =', self.ddy[d])
             if external_force is not None:
                 self.ddy[d] += external_force[d]
             self.dy[d] += self.ddy[d] * tau * self.dt * error_coupling
